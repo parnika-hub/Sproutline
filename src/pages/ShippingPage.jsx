@@ -26,7 +26,8 @@ export default function ShippingPage() {
     if (!shippingInfo.city.trim()) e.city = 'City is required';
     if (!shippingInfo.pin.trim()) e.pin = 'PIN code is required';
     else if (!/^\d{6}$/.test(shippingInfo.pin)) e.pin = 'PIN must be exactly 6 digits';
-    if (!shippingInfo.phone.trim()) e.phone = 'Phone is required';
+    if (!shippingInfo.phone.trim()) e.phone = 'Phone number is required';
+    else if (!/^\d{10}$/.test(shippingInfo.phone)) e.phone = 'Phone number must be exactly 10 digits';
     return e;
   };
 
