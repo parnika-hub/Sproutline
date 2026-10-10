@@ -90,16 +90,17 @@
 }
 
 .scroll-expand__content {
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
+  margin-top: 20px;
   text-align: center;
   color: white;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 16px;
   will-change: opacity, transform;
   transition: opacity 0.1s linear;
+  pointer-events: auto;
 }
 
 .scroll-expand__spacer {

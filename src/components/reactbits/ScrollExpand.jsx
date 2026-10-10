@@ -75,6 +75,13 @@ export default function ScrollExpand({
           <div className="scroll-expand__overlay" ref={overlayRef} />
           <div className="scroll-expand__hero-text">
             <h1 className="scroll-expand__title">{title}</h1>
+            <div
+              className="scroll-expand__content"
+              ref={contentRef}
+              style={{ opacity: prefersReduced ? 1 : 0 }}
+            >
+              {children}
+            </div>
             {scrollHint && (
               <div className="scroll-expand__hint" ref={hintRef} aria-hidden="true">
                 <span>{scrollHint}</span>
@@ -83,13 +90,6 @@ export default function ScrollExpand({
                 </svg>
               </div>
             )}
-          </div>
-          <div
-            className="scroll-expand__content"
-            ref={contentRef}
-            style={{ opacity: prefersReduced ? 1 : 0 }}
-          >
-            {children}
           </div>
         </div>
       </div>
