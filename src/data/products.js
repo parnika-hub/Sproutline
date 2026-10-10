@@ -16,7 +16,7 @@ export const products = [
   {
     id: 'p002',
     name: 'Bamboo ruler set',
-    category: 'Desk goods',
+    category: 'Desk Essentials',
     tag: 'Bamboo',
     price: 180,
     description:
@@ -46,7 +46,7 @@ export const products = [
   {
     id: 'p005',
     name: 'Cork desk organiser',
-    category: 'Desk goods',
+    category: 'Desk Essentials',
     tag: 'Cork',
     price: 560,
     description:
@@ -56,7 +56,7 @@ export const products = [
   {
     id: 'p006',
     name: 'Recycled sticky notes',
-    category: 'Desk goods',
+    category: 'Desk Essentials',
     tag: 'Recycled',
     price: 90,
     description:
@@ -76,7 +76,7 @@ export const products = [
   {
     id: 'p008',
     name: 'Recycled paper envelope',
-    category: 'Desk goods',
+    category: 'Desk Essentials',
     tag: 'Recycled',
     price: 120,
     description:
@@ -97,7 +97,7 @@ export const products = [
   {
     id: 'p010',
     name: 'Recycled craft paper',
-    category: 'Desk goods',
+    category: 'Desk Essentials',
     tag: 'Recycled',
     price: 300,
     description:
@@ -108,7 +108,7 @@ export const products = [
   },
 ];
 
-export const categories = ['All', 'Notebooks', 'Pens and pencils', 'Desk goods'];
+export const categories = ['All', 'Notebooks', 'Pens and pencils', 'Desk Essentials'];
 
 export const getProductById = (id) => products.find((p) => p.id === id);
 

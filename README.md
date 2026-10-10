@@ -51,7 +51,7 @@ npm run build
    - Three key trust guarantees (plastic-free packing, plantable products, free shipping over Rs 500)
    - *"Our Promise"* feature band with dynamic `CrystalizedBall` WebGL canvas
 2. **`/shop` (Shop Listing)**:
-   - Category filtering chips (*All*, *Notebooks*, *Pens and pencils*, *Desk goods*)
+   - Category filtering chips (*All*, *Notebooks*, *Pens and pencils*, *Desk Essentials*)
    - Instant "Add to Cart" on every product card
 3. **`/product/:id` (Product Detail)**:
    - High-resolution photograph, eco tag badge, and detailed product description

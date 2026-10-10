@@ -31,7 +31,7 @@ export default function Footer() {
             <li><Link to="/shop">All products</Link></li>
             <li><Link to="/shop?cat=Notebooks">Notebooks</Link></li>
             <li><Link to="/shop?cat=Pens+and+pencils">Pens &amp; Pencils</Link></li>
-            <li><Link to="/shop?cat=Desk+goods">Desk Goods</Link></li>
+            <li><Link to="/shop?cat=Desk+Essentials">Desk Essentials</Link></li>
           </ul>
         </nav>
 
