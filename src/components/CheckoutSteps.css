@@ -1,0 +1,83 @@
+/* src/components/CheckoutSteps.css */
+.checkout-steps {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.checkout-steps__list {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+}
+
+.checkout-steps__step {
+  display: flex;
+  align-items: center;
+}
+
+.checkout-steps__connector {
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: var(--mist-dark);
+  transition: background var(--transition-base);
+}
+
+.checkout-steps__step.done .checkout-steps__connector,
+.checkout-steps__step.active .checkout-steps__connector {
+  background: var(--forest);
+}
+
+.checkout-steps__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  padding: 4px 8px;
+}
+
+.checkout-steps__num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--mist-dark);
+  color: var(--ink-muted);
+  border: 2px solid transparent;
+  transition: background var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+}
+
+.checkout-steps__step.done .checkout-steps__num {
+  background: var(--forest);
+  color: white;
+}
+
+.checkout-steps__step.active .checkout-steps__num {
+  background: white;
+  color: var(--forest);
+  border-color: var(--forest);
+}
+
+.checkout-steps__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  transition: color var(--transition-base);
+}
+
+.checkout-steps__step.done .checkout-steps__label,
+.checkout-steps__step.active .checkout-steps__label {
+  color: var(--forest);
+}
+
+@media (max-width: 480px) {
+  .checkout-steps__connector { width: 36px; }
+  .checkout-steps__label { display: none; }
+}

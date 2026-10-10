@@ -1,0 +1,5 @@
+/* src/components/BottomTabBar.css */
+/* (Styles are in index.css .bottom-tab-bar — this file left intentionally minimal) */
+.bottom-tab-bar__item {
+  position: relative;
+}

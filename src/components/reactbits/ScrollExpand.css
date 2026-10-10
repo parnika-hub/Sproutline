@@ -1,0 +1,117 @@
+/* src/components/reactbits/ScrollExpand.css */
+.scroll-expand {
+  position: relative;
+  height: 280vh; /* creates the scroll room */
+}
+
+.scroll-expand__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.scroll-expand__img-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-expand__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center center;
+  will-change: transform;
+  transition: transform 0.05s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-expand__img {
+    transform: scale(1) !important;
+  }
+}
+
+.scroll-expand__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(31, 43, 37, 0.5) 0%,
+    rgba(31, 43, 37, 0.3) 50%,
+    rgba(31, 43, 37, 0.6) 100%
+  );
+  pointer-events: none;
+}
+
+.scroll-expand__hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  width: 90%;
+  max-width: 760px;
+}
+
+.scroll-expand__title {
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: white;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
+  letter-spacing: -0.02em;
+}
+
+.scroll-expand__hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 32px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  will-change: opacity;
+  animation: hint-bounce 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-expand__hint { animation: none; }
+}
+
+@keyframes hint-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.scroll-expand__content {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  text-align: center;
+  color: white;
+  width: 90%;
+  max-width: 600px;
+  will-change: opacity, transform;
+  transition: opacity 0.1s linear;
+}
+
+.scroll-expand__spacer {
+  height: 1px;
+}
+
+@media (max-width: 768px) {
+  .scroll-expand {
+    height: 220vh;
+  }
+
+  .scroll-expand__title {
+    font-size: clamp(1.8rem, 8vw, 3rem);
+  }
+}

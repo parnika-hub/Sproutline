@@ -1,0 +1,138 @@
+/* src/pages/LoginPage.css */
+.login-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Form side */
+.login-form-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+  background: var(--mist);
+  min-width: 0;
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.login-brand {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--forest);
+  text-decoration: none;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  box-shadow: var(--shadow-lg);
+}
+
+.login-title {
+  font-size: 1.8rem;
+  color: var(--forest);
+  margin-bottom: 6px;
+}
+
+.login-subtitle {
+  color: var(--ink-muted);
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.login-submit {
+  width: 100%;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--mist-dark);
+}
+
+.login-divider span {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.login-guest {
+  width: 100%;
+}
+
+.login-create {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.login-create__link {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: inherit;
+  color: var(--forest);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Deco side */
+.login-deco-side {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+}
+
+.login-deco-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Responsive: hide deco on mobile */
+@media (max-width: 768px) {
+  .login-deco-side { display: none; }
+
+  .login-card {
+    padding: 28px 24px;
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .login-form-side { padding: 24px 16px; }
+}

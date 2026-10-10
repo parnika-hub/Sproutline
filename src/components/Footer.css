@@ -1,0 +1,112 @@
+/* src/components/Footer.css */
+.site-footer {
+  background: var(--forest);
+  color: var(--sage-light);
+  padding-top: 60px;
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 48px;
+  padding-bottom: 48px;
+}
+
+/* Brand column */
+.footer-brand { }
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.footer-logo span {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: white;
+}
+
+.footer-brand__blurb {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 16px;
+  max-width: 280px;
+}
+
+.footer-brand__promise {
+  font-size: 0.8rem;
+  color: var(--sage);
+  font-weight: 500;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--sage);
+}
+
+/* Footer nav */
+.footer-heading {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+  margin-bottom: 16px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+/* Promise column */
+.footer-promise p {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Bottom bar */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px 0;
+}
+
+.footer-bottom p {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 960px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 580px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .footer-brand__blurb { max-width: 100%; }
+}
