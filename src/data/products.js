@@ -63,6 +63,49 @@ export const products = [
       'Eco-conscious self-stick memo pads made with 100% post-consumer recycled paper and water-based, solvent-free adhesive. Perfect for reminders, bookmarks, and quick notes without contributing to deforestation.',
     images: ['/images/recycled-sticky-notes.jpg'],
   },
+  {
+    id: 'p007',
+    name: 'Recycled paper notebook',
+    category: 'Notebooks',
+    tag: 'Recycled',
+    price: 220,
+    description:
+      'Spiral-bound notebooks with kraft covers and plain pages, made from recycled paper. Light enough to carry everywhere.',
+    images: ['/images/recycled-paper-notebook.jpg'],
+  },
+  {
+    id: 'p008',
+    name: 'Recycled paper envelope',
+    category: 'Desk goods',
+    tag: 'Recycled',
+    price: 120,
+    description:
+      'Kraft paper envelopes with a string-and-button closure. Plastic-free and ideal for letters, cards and documents.',
+    images: ['/images/recycled-paper-envelope.jpg'],
+  },
+  {
+    id: 'p009',
+    name: 'Premium bamboo fountain pen',
+    category: 'Pens and pencils',
+    tag: 'Bamboo',
+    price: 650,
+    description:
+      'A smooth fountain pen with a natural bamboo barrel and cap. A plastic-free pen made to last.',
+    images: ['/images/bamboo-fountain-pen.jpg'],
+    imageFit: 'contain',
+  },
+  {
+    id: 'p010',
+    name: 'Recycled craft paper',
+    category: 'Desk goods',
+    tag: 'Recycled',
+    price: 300,
+    description:
+      'Handmade recycled paper sheets in soft pastel colours, some with pressed flowers. Perfect for crafts, cards and gifts.',
+    images: ['/images/recycled-craft-paper.jpg'],
+    imageFit: 'cover',
+    imagePosition: 'center',
+  },
 ];
 
 export const categories = ['All', 'Notebooks', 'Pens and pencils', 'Desk goods'];

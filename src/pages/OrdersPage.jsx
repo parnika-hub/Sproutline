@@ -7,9 +7,9 @@ import { useOrders } from '../context/OrdersContext';
 import './OrdersPage.css';
 
 const STATUS_COLORS = {
-  Placed:    { bg: '#e8f5e9', color: '#2e7d32' },
-  Packed:    { bg: '#fff8e1', color: '#f57f17' },
-  Shipped:   { bg: '#e3f2fd', color: '#1565c0' },
+  Placed: { bg: '#e8f5e9', color: '#2e7d32' },
+  Packed: { bg: '#fff8e1', color: '#f57f17' },
+  Shipped: { bg: '#e3f2fd', color: '#1565c0' },
   Delivered: { bg: '#f3e5f5', color: '#6a1b9a' },
 };
 
@@ -55,7 +55,7 @@ function OrderCard({ order }) {
               aria-hidden="true"
               style={{ transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
             >
-              <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
@@ -65,12 +65,21 @@ function OrderCard({ order }) {
       <div className="order-card__summary">
         <div className="order-card__items-preview">
           {order.items.slice(0, 3).map((item) => (
-            <div key={item.id} className="order-card__thumb-wrap">
+            <div
+              key={item.id}
+              className="order-card__thumb-wrap"
+              style={item.imageFit === 'contain' ? { background: '#ffffff' } : undefined}
+            >
               {item.images?.[0] ? (
                 <img
                   src={item.images[0]}
                   alt={item.name}
                   className="order-card__thumb"
+                  style={{
+                    objectFit: item.imageFit || 'cover',
+                    objectPosition: item.imagePosition || 'center top',
+                    ...(item.imageFit === 'contain' ? { backgroundColor: '#ffffff' } : {}),
+                  }}
                   onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                 />
               ) : null}
@@ -104,12 +113,20 @@ function OrderCard({ order }) {
           <div className="order-details__items">
             {order.items.map((item) => (
               <div key={item.id} className="order-details__item">
-                <div className="order-details__item-img-wrap">
+                <div
+                  className="order-details__item-img-wrap"
+                  style={item.imageFit === 'contain' ? { background: '#ffffff' } : undefined}
+                >
                   {item.images?.[0] ? (
                     <img
                       src={item.images[0]}
                       alt={item.name}
                       className="order-details__item-img"
+                      style={{
+                        objectFit: item.imageFit || 'cover',
+                        objectPosition: item.imagePosition || 'center top',
+                        ...(item.imageFit === 'contain' ? { backgroundColor: '#ffffff' } : {}),
+                      }}
                       onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                     />
                   ) : null}

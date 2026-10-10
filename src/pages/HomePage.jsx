@@ -12,7 +12,7 @@ const BESTSELLERS = products.slice(0, 4);
 
 const TRUST_POINTS = [
   {
-    icon: '🚫',
+    icon: '♻️',
     title: 'Plastic-Free Packing',
     desc: 'Every order ships in compostable mailers and recycled kraft tissue. Zero plastic, ever.',
   },
@@ -22,7 +22,7 @@ const TRUST_POINTS = [
     desc: "Our seed-paper notebooks and plantable pencils let you grow herbs and wildflowers when you're done.",
   },
   {
-    icon: '🚚',
+    icon: '📦',
     title: 'Free Shipping over Rs 500',
     desc: 'Standard delivery is on us when your order crosses Rs 500. Express is always available.',
   },
@@ -55,7 +55,7 @@ export default function HomePage() {
             <div className="section-header">
               <div>
                 <MaskedHeading
-                  imageSrc="/images/leaves-texture.jpg"
+                  imageSrc="/images/BG.jpg"
                   ariaLabel="Bestsellers"
                   reveal="rise"
                 >
@@ -95,7 +95,7 @@ export default function HomePage() {
           <div className="container promise-band__inner">
             <div className="promise-band__text">
               <MaskedHeading
-                imageSrc="/images/leaves-texture.jpg"
+                imageSrc="/images/BG.jpg"
                 ariaLabel="Plant what you finish"
                 reveal="rise"
               >

@@ -9,6 +9,10 @@ const PRODUCT_IMAGES = [
   { file: '/images/plantable-pen.jpg', name: 'Plantable seed pen (pack of 5)', attribution: 'Reference product images provided by the project team' },
   { file: '/images/cork-desk-organiser.jpg', name: 'Cork desk organiser', attribution: 'Reference product images provided by the project team' },
   { file: '/images/recycled-sticky-notes.jpg', name: 'Recycled sticky notes', attribution: 'Reference product images provided by the project team' },
+  { file: '/images/recycled-paper-notebook.jpg', name: 'Recycled paper notebook', attribution: 'Reference product images provided by the project team' },
+  { file: '/images/recycled-paper-envelope.jpg', name: 'Recycled paper envelope', attribution: 'Reference product images provided by the project team' },
+  { file: '/images/bamboo-fountain-pen.jpg', name: 'Premium bamboo fountain pen', attribution: 'Reference product images provided by the project team' },
+  { file: '/images/recycled-craft-paper.jpg', name: 'Recycled craft paper', attribution: 'Reference product images provided by the project team' },
 ];
 
 const EDITORIAL_IMAGES = [

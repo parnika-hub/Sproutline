@@ -19,13 +19,21 @@ function TagChip({ tag }) {
 }
 
 function getCardImageStyle(product) {
-  if (product.id === 'p001' || product.images?.[0]?.includes('seed-paper-notebook')) {
-    return { objectFit: 'cover', objectPosition: 'center 35%' };
-  }
-  if (product.id === 'p002' || product.images?.[0]?.includes('bamboo-ruler-set')) {
-    return { objectFit: 'cover', objectPosition: 'center' };
-  }
-  return { objectFit: 'cover', objectPosition: 'center top' };
+  const defaultPosition =
+    product.id === 'p001' || product.images?.[0]?.includes('seed-paper-notebook')
+      ? 'center 35%'
+      : product.id === 'p002' || product.images?.[0]?.includes('bamboo-ruler-set')
+      ? 'center'
+      : 'center top';
+
+  const fit = product.imageFit || 'cover';
+  const position = product.imagePosition || defaultPosition;
+
+  return {
+    objectFit: fit,
+    objectPosition: position,
+    ...(fit === 'contain' ? { backgroundColor: '#ffffff' } : {}),
+  };
 }
 
 export default function ProductCard({ product, compact = false }) {
@@ -43,6 +51,7 @@ export default function ProductCard({ product, compact = false }) {
       <Link
         to={`/product/${product.id}`}
         className="product-card__img-wrap"
+        style={product.imageFit === 'contain' ? { background: '#ffffff' } : undefined}
         tabIndex={-1}
         aria-hidden="true"
       >

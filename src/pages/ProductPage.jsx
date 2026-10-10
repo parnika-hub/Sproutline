@@ -57,12 +57,20 @@ export default function ProductPage() {
           <div className="product-layout">
             {/* Image */}
             <div className="product-img-col">
-              <div className="product-main-img-wrap">
+              <div
+                className="product-main-img-wrap"
+                style={product.imageFit === 'contain' ? { background: '#ffffff' } : undefined}
+              >
                 {product.images?.[0] ? (
                   <img
                     src={product.images[0]}
                     alt={product.name}
                     className="product-main-img"
+                    style={{
+                      objectFit: product.imageFit || 'cover',
+                      objectPosition: product.imagePosition || 'center top',
+                      ...(product.imageFit === 'contain' ? { backgroundColor: '#ffffff' } : {}),
+                    }}
                     onError={(e) => {
                       e.target.style.display = 'none';
                       e.target.nextElementSibling.style.display = 'flex';

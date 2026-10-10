@@ -10,9 +10,9 @@ export default function Footer() {
         <div className="footer-brand">
           <div className="footer-logo">
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-              <path d="M16 28 C16 20, 16 14, 16 8" stroke="#C9A06B" strokeWidth="2.2" strokeLinecap="round"/>
-              <path d="M16 16 C12 14, 8 10, 10 6 C12 6, 14 10, 16 14" fill="#2C5A43"/>
-              <path d="M16 12 C20 10, 24 6, 22 2 C20 2, 18 6, 16 10" fill="#B9D1B0"/>
+              <path d="M16 28 C16 20, 16 14, 16 8" stroke="#C9A06B" strokeWidth="2.2" strokeLinecap="round" />
+              <path d="M16 16 C12 14, 8 10, 10 6 C12 6, 14 10, 16 14" fill="#57d495ff" />
+              <path d="M16 12 C20 10, 24 6, 22 2 C20 2, 18 6, 16 10" fill="#B9D1B0" />
             </svg>
             <span>Sproutline</span>
           </div>
@@ -20,7 +20,7 @@ export default function Footer() {
             Thoughtfully made stationery that gives back to the earth. Every notebook planted, every pencil sprouted — writing that grows.
           </p>
           <p className="footer-brand__promise">
-            🌱 100% plastic-free packaging &nbsp;·&nbsp; FSC-certified paper &nbsp;·&nbsp; Carbon-neutral shipping
+            100% plastic-free packaging &nbsp;·&nbsp; FSC-certified paper &nbsp;·&nbsp; Carbon-neutral shipping
           </p>
         </div>
 

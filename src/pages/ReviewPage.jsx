@@ -66,12 +66,20 @@ export default function ReviewPage() {
                 <div className="review-items">
                   {cart.map((item) => (
                     <div key={item.id} className="review-item">
-                      <div className="review-item__img-wrap">
+                      <div
+                        className="review-item__img-wrap"
+                        style={item.imageFit === 'contain' ? { background: '#ffffff' } : undefined}
+                      >
                         {item.images?.[0] ? (
                           <img
                             src={item.images[0]}
                             alt={item.name}
                             className="review-item__img"
+                            style={{
+                              objectFit: item.imageFit || 'cover',
+                              objectPosition: item.imagePosition || 'center top',
+                              ...(item.imageFit === 'contain' ? { backgroundColor: '#ffffff' } : {}),
+                            }}
                             onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
                           />
                         ) : null}

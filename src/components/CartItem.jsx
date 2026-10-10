@@ -7,12 +7,20 @@ export default function CartItem({ item }) {
 
   return (
     <div className="cart-item">
-      <div className="cart-item__img-wrap">
+      <div
+        className="cart-item__img-wrap"
+        style={item.imageFit === 'contain' ? { background: '#ffffff' } : undefined}
+      >
         {item.images?.[0] ? (
           <img
             src={item.images[0]}
             alt={item.name}
             className="cart-item__img"
+            style={{
+              objectFit: item.imageFit || 'cover',
+              objectPosition: item.imagePosition || 'center top',
+              ...(item.imageFit === 'contain' ? { backgroundColor: '#ffffff' } : {}),
+            }}
             onError={(e) => {
               e.target.style.display = 'none';
               e.target.nextElementSibling.style.display = 'flex';
