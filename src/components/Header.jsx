@@ -3,38 +3,13 @@ import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useUser } from '../context/UserContext';
 import { useState } from 'react';
+import LogoMark from './LogoMark';
 import './Header.css';
 
 function SproutlineLogo() {
   return (
     <Link to="/" className="header-logo" aria-label="Sproutline — home">
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        focusable="false"
-      >
-        {/* Stem */}
-        <path
-          d="M16 28 C16 20, 16 14, 16 8"
-          stroke="#C9A06B"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-        />
-        {/* Left leaf */}
-        <path
-          d="M16 16 C12 14, 8 10, 10 6 C12 6, 14 10, 16 14"
-          fill="#2C5A43"
-        />
-        {/* Right leaf */}
-        <path
-          d="M16 12 C20 10, 24 6, 22 2 C20 2, 18 6, 16 10"
-          fill="#B9D1B0"
-        />
-      </svg>
+      <LogoMark size={36} />
       <span className="header-logo__name">Sproutline</span>
     </Link>
   );

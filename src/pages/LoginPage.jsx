@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
+import LogoMark from '../components/LogoMark';
 import './LoginPage.css';
 
 export default function LoginPage() {
@@ -40,11 +41,7 @@ export default function LoginPage() {
       {/* Left: form */}
       <div className="login-form-side">
         <div className="login-logo">
-          <svg width="36" height="36" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <path d="M16 28 C16 20, 16 14, 16 8" stroke="#C9A06B" strokeWidth="2.2" strokeLinecap="round"/>
-            <path d="M16 16 C12 14, 8 10, 10 6 C12 6, 14 10, 16 14" fill="#2C5A43"/>
-            <path d="M16 12 C20 10, 24 6, 22 2 C20 2, 18 6, 16 10" fill="#B9D1B0"/>
-          </svg>
+          <LogoMark size={36} />
           <Link to="/" className="login-brand">Sproutline</Link>
         </div>
 
