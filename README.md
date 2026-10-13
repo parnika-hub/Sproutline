@@ -24,7 +24,7 @@ npm run build
 
 ---
 
-## 🌿 Brand & Design System
+## 🌱 Brand & Design System
 
 - **Palette**:
   - Forest Green: `#2C5A43`
