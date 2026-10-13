@@ -39,7 +39,7 @@ export default function Footer() {
             <li><Link to="/shipping-returns">Shipping &amp; Returns</Link></li>
             <li><Link to="/track-order">Track Order</Link></li>
             <li><Link to="/contact">Contact Us</Link></li>
-            <li><Link to="/credits">Photo Credits</Link></li>
+
           </ul>
         </nav>
 

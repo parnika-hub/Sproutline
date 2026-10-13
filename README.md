@@ -79,9 +79,7 @@ npm run build
 9. **`/login` (Authentication)**:
    - Demo email/password sign-in and "Continue as guest"
    - Desktop decorative panel featuring `CrystalizedBall` WebGL animation
-10. **`/credits` (Photo Credits)**:
-    - Attribution table and descriptions for all photography (also in `public/credits.md`)
-11. **Help Pages**:
+10. **Help Pages**:
     - `/shipping-returns`, `/track-order`, `/contact`
 
 ---

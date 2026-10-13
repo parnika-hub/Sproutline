@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useOrders } from '../context/OrdersContext';
+import OrderTracker from '../components/OrderTracker';
 import './OrdersPage.css';
 
 const STATUS_COLORS = {
@@ -60,6 +61,8 @@ function OrderCard({ order }) {
           </button>
         </div>
       </div>
+
+      <OrderTracker status={order.status} />
 
       {/* Summary row — always visible */}
       <div className="order-card__summary">
