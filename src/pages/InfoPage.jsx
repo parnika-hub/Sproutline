@@ -43,7 +43,7 @@ export default function InfoPage({ type = 'contact' }) {
       sections: [
         {
           heading: 'Customer Support',
-          text: 'Email us at hello@sproutline.eco or reach our helpline at +91 98765 43210 (Mon–Fri, 9am–6pm IST).',
+          text: 'Email us at hello@sproutline.eco or reach our helpline at +91 01234 01234 (Mon–Fri, 9am–6pm IST).',
         },
         {
           heading: 'Bulk & Corporate Inquiries',
