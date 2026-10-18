@@ -2,20 +2,28 @@
 import { Link, useLocation } from 'react-router-dom';
 import './CheckoutSteps.css';
 
-const STEPS = [
+const DEFAULT_STEPS = [
   { label: 'Cart', path: '/cart' },
   { label: 'Shipping', path: '/shipping' },
   { label: 'Review', path: '/review' },
 ];
 
-export default function CheckoutSteps() {
+const FOUR_STEPS = [
+  { label: 'Cart', path: '/cart' },
+  { label: 'Shipping', path: '/shipping' },
+  { label: 'Review', path: '/review' },
+  { label: 'Payment', path: '/payment' },
+];
+
+export default function CheckoutSteps({ showPaymentStep = false }) {
   const location = useLocation();
-  const currentIdx = STEPS.findIndex((s) => s.path === location.pathname);
+  const steps = showPaymentStep ? FOUR_STEPS : DEFAULT_STEPS;
+  const currentIdx = steps.findIndex((s) => s.path === location.pathname);
 
   return (
     <nav className="checkout-steps" aria-label="Checkout progress">
       <ol className="checkout-steps__list">
-        {STEPS.map((step, idx) => {
+        {steps.map((step, idx) => {
           const isDone = idx < currentIdx;
           const isActive = idx === currentIdx;
 

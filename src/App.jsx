@@ -13,6 +13,7 @@ import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
 import ShippingPage from './pages/ShippingPage';
 import ReviewPage from './pages/ReviewPage';
+import Payment from './pages/Payment';
 import OrderSuccessPage from './pages/OrderSuccessPage';
 import OrdersPage from './pages/OrdersPage';
 import LoginPage from './pages/LoginPage';
@@ -34,6 +35,7 @@ export default function App() {
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/shipping" element={<ShippingPage />} />
                 <Route path="/review" element={<ReviewPage />} />
+                <Route path="/payment" element={<Payment />} />
                 <Route path="/order-success/:orderId" element={<OrderSuccessPage />} />
                 <Route path="/orders" element={<OrdersPage />} />
                 <Route path="/login" element={<LoginPage />} />

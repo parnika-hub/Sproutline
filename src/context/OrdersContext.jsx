@@ -19,7 +19,7 @@ export function OrdersProvider({ children }) {
     localStorage.setItem('sproutline_orders', JSON.stringify(orders));
   }, [orders]);
 
-  const placeOrder = ({ items, address, delivery, subtotal }) => {
+  const placeOrder = ({ items, address, delivery, subtotal, paymentMethod }) => {
     const shippingCost =
       delivery === 'express'
         ? 120
@@ -38,6 +38,7 @@ export function OrdersProvider({ children }) {
       shippingCost,
       total,
       status: 'Placed',
+      ...(paymentMethod ? { paymentMethod } : {}),
     };
     setOrders((prev) => [newOrder, ...prev]);
     return newOrder;

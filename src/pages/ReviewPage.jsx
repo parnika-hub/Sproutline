@@ -6,14 +6,12 @@ import Footer from '../components/Footer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { useCart } from '../context/CartContext';
 import { useCheckout } from '../context/CheckoutContext';
-import { useOrders } from '../context/OrdersContext';
 import './ReviewPage.css';
 
 export default function ReviewPage() {
   const navigate = useNavigate();
-  const { cart, cartSubtotal, clearCart } = useCart();
-  const { shippingInfo, clearShipping } = useCheckout();
-  const { placeOrder } = useOrders();
+  const { cart, cartSubtotal } = useCart();
+  const { shippingInfo } = useCheckout();
 
   // Redirect to cart if empty
   useEffect(() => {
@@ -35,16 +33,8 @@ export default function ReviewPage() {
       : 50;
   const total = cartSubtotal + shipping;
 
-  const handlePlaceOrder = () => {
-    const order = placeOrder({
-      items: cart,
-      address: shippingInfo,
-      delivery: shippingInfo.delivery,
-      subtotal: cartSubtotal,
-    });
-    clearCart();
-    clearShipping();
-    navigate(`/order-success/${order.id}`);
+  const handleContinueToPayment = () => {
+    navigate('/payment');
   };
 
   return (
@@ -148,9 +138,9 @@ export default function ReviewPage() {
 
               <button
                 className="btn btn-primary btn-lg review-place-btn"
-                onClick={handlePlaceOrder}
+                onClick={handleContinueToPayment}
               >
-                Place order 🌱
+                Continue to payment
               </button>
               <p className="review-disclaimer">
                 By placing your order, you agree to our eco-commitment — all packaging is compostable.
