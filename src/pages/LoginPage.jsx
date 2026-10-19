@@ -99,14 +99,7 @@ export default function LoginPage() {
           </button>
 
           <p className="login-create">
-            New here?{' '}
-            <button
-              className="login-create__link"
-              onClick={() => { setEmail(''); setPassword(''); }}
-              aria-label="Create an account (uses same form — any email/password works)"
-            >
-              Create an account
-            </button>
+            New here? Don't worry just login to create account.
           </p>
         </div>
       </div>
