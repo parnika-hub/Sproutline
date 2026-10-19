@@ -140,6 +140,14 @@
   padding: 4px 0;
 }
 
+.payment-fields .form-error {
+  font-size: 14px;
+  color: #c0392b;
+  font-weight: 500;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
 /* Kraft tinted notice */
 .payment-demo-notice {
   background: rgba(201, 160, 107, 0.12);

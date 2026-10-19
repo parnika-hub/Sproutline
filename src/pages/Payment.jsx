@@ -16,9 +16,21 @@ export default function Payment() {
   const { placeOrder } = useOrders();
 
   const [paymentMethod, setPaymentMethod] = useState('UPI');
+  const [upiId, setUpiId] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardName, setCardName] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [errors, setErrors] = useState({});
+
   const [isProcessing, setIsProcessing] = useState(false);
   const isProcessingRef = useRef(false);
   const timerRef = useRef(null);
+
+  const upiInputRef = useRef(null);
+  const cardNumberRef = useRef(null);
+  const cardExpiryRef = useRef(null);
+  const cardCvvRef = useRef(null);
 
   // Guard: Redirect to cart if empty
   useEffect(() => {
@@ -34,9 +46,15 @@ export default function Payment() {
     }
   }, [shippingInfo, navigate]);
 
-  // Clean up timer on unmount
+  // Clean up timer and field values on unmount
   useEffect(() => {
     return () => {
+      setUpiId('');
+      setCardNumber('');
+      setCardName('');
+      setExpiry('');
+      setCvv('');
+      setErrors({});
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
@@ -51,11 +69,219 @@ export default function Payment() {
       : 50;
   const total = cartSubtotal + shipping;
 
+  // Validation functions
+  const getUpiError = (val) => {
+    const trimmed = val.trim();
+    if (!trimmed) {
+      return 'Enter your UPI ID';
+    }
+    const upiRegex = /^[a-zA-Z0-9._-]{2,256}@[a-zA-Z]{2,64}$/;
+    if (!upiRegex.test(trimmed)) {
+      return 'Enter a valid UPI ID, for example name@bank';
+    }
+    return '';
+  };
+
+  const formatCardNumber = (val) => {
+    const digits = val.replace(/\D/g, '').slice(0, 16);
+    return digits.match(/.{1,4}/g)?.join(' ') || '';
+  };
+
+  const getCardNumberError = (val) => {
+    const digits = val.replace(/\D/g, '');
+    if (!digits) {
+      return 'Enter your card number';
+    }
+    if (digits.length < 16) {
+      return 'Card number must be 16 digits';
+    }
+    return '';
+  };
+
+  const formatExpiry = (val) => {
+    let cleaned = val;
+    if (/^\d\/$/.test(val)) {
+      cleaned = '0' + val.charAt(0);
+    }
+    const digits = cleaned.replace(/\D/g, '').slice(0, 4);
+    if (digits.length > 2) {
+      return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+    }
+    if (digits.length === 2) {
+      return `${digits}/`;
+    }
+    return digits;
+  };
+
+  const getExpiryError = (val) => {
+    const digits = val.replace(/\D/g, '');
+    if (!digits) {
+      return 'Enter the expiry date';
+    }
+    if (digits.length < 4) {
+      return 'Enter a valid date as MM/YY';
+    }
+    const month = parseInt(digits.slice(0, 2), 10);
+    const year = parseInt(digits.slice(2, 4), 10);
+
+    if (month < 1 || month > 12) {
+      return 'Enter a valid date as MM/YY';
+    }
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentCentury = Math.floor(currentYear / 100) * 100;
+    const fullExpYear = currentCentury + year;
+    const currentMonth = now.getMonth() + 1;
+
+    // Card is valid through the end of its expiry month
+    if (fullExpYear < currentYear || (fullExpYear === currentYear && month < currentMonth)) {
+      return 'This card has expired';
+    }
+
+    return '';
+  };
+
+  const formatCvv = (val) => {
+    return val.replace(/\D/g, '').slice(0, 3);
+  };
+
+  const getCvvError = (val) => {
+    const digits = val.replace(/\D/g, '');
+    if (!digits) {
+      return 'Enter your CVV';
+    }
+    if (digits.length < 3) {
+      return 'CVV must be 3 digits';
+    }
+    return '';
+  };
+
+  // Switch payment method and clear all errors
+  const handleMethodChange = (method) => {
+    setPaymentMethod(method);
+    setErrors({});
+  };
+
+  // Blur handlers
+  const handleUpiBlur = () => {
+    const err = getUpiError(upiId);
+    setErrors((prev) => ({ ...prev, upi: err }));
+  };
+
+  const handleCardNumberBlur = () => {
+    const err = getCardNumberError(cardNumber);
+    setErrors((prev) => ({ ...prev, cardNumber: err }));
+  };
+
+  const handleExpiryBlur = () => {
+    const err = getExpiryError(expiry);
+    setErrors((prev) => ({ ...prev, expiry: err }));
+  };
+
+  const handleCvvBlur = () => {
+    const err = getCvvError(cvv);
+    setErrors((prev) => ({ ...prev, cvv: err }));
+  };
+
+  // Change handlers: clear error as soon as the field becomes valid
+  const handleUpiChange = (e) => {
+    const val = e.target.value;
+    setUpiId(val);
+    if (errors.upi) {
+      const err = getUpiError(val);
+      if (!err) {
+        setErrors((prev) => ({ ...prev, upi: '' }));
+      }
+    }
+  };
+
+  const handleCardNumberChange = (e) => {
+    const formatted = formatCardNumber(e.target.value);
+    setCardNumber(formatted);
+    if (errors.cardNumber) {
+      const err = getCardNumberError(formatted);
+      if (!err) {
+        setErrors((prev) => ({ ...prev, cardNumber: '' }));
+      }
+    }
+  };
+
+  const handleExpiryKeyDown = (e) => {
+    if (e.key === 'Backspace') {
+      const input = e.currentTarget;
+      if (input.selectionStart === input.selectionEnd && input.selectionStart === expiry.length && expiry.endsWith('/')) {
+        e.preventDefault();
+        const next = expiry.slice(0, -2);
+        setExpiry(next);
+        if (errors.expiry) {
+          const err = getExpiryError(next);
+          if (!err) {
+            setErrors((prev) => ({ ...prev, expiry: '' }));
+          }
+        }
+      }
+    }
+  };
+
+  const handleExpiryChange = (e) => {
+    const formatted = formatExpiry(e.target.value);
+    setExpiry(formatted);
+    if (errors.expiry) {
+      const err = getExpiryError(formatted);
+      if (!err) {
+        setErrors((prev) => ({ ...prev, expiry: '' }));
+      }
+    }
+  };
+
+  const handleCvvChange = (e) => {
+    const digits = formatCvv(e.target.value);
+    setCvv(digits);
+    if (errors.cvv) {
+      const err = getCvvError(digits);
+      if (!err) {
+        setErrors((prev) => ({ ...prev, cvv: '' }));
+      }
+    }
+  };
+
   const handlePay = (e) => {
     if (e) e.preventDefault();
     if (isProcessingRef.current || isProcessing) return;
     if (cart.length === 0) return;
 
+    if (paymentMethod === 'UPI') {
+      const upiErr = getUpiError(upiId);
+      if (upiErr) {
+        setErrors({ upi: upiErr });
+        upiInputRef.current?.focus();
+        return;
+      }
+    } else if (paymentMethod === 'Card') {
+      const cardNumErr = getCardNumberError(cardNumber);
+      const expiryErr = getExpiryError(expiry);
+      const cvvErr = getCvvError(cvv);
+
+      const newErrors = {};
+      if (cardNumErr) newErrors.cardNumber = cardNumErr;
+      if (expiryErr) newErrors.expiry = expiryErr;
+      if (cvvErr) newErrors.cvv = cvvErr;
+
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        if (cardNumErr) {
+          cardNumberRef.current?.focus();
+        } else if (expiryErr) {
+          cardExpiryRef.current?.focus();
+        } else if (cvvErr) {
+          cardCvvRef.current?.focus();
+        }
+        return;
+      }
+    }
+
+    setErrors({});
     isProcessingRef.current = true;
     setIsProcessing(true);
 
@@ -67,6 +293,12 @@ export default function Payment() {
         subtotal: cartSubtotal,
         paymentMethod,
       });
+      setUpiId('');
+      setCardNumber('');
+      setCardName('');
+      setExpiry('');
+      setCvv('');
+      setErrors({});
       clearCart();
       clearShipping();
       navigate(`/order-success/${order.id}`);
@@ -112,7 +344,7 @@ export default function Payment() {
                       name="paymentMethod"
                       value="UPI"
                       checked={paymentMethod === 'UPI'}
-                      onChange={() => setPaymentMethod('UPI')}
+                      onChange={() => handleMethodChange('UPI')}
                       className="sr-only"
                     />
                     <div className="payment-option__details">
@@ -132,7 +364,7 @@ export default function Payment() {
                       name="paymentMethod"
                       value="Card"
                       checked={paymentMethod === 'Card'}
-                      onChange={() => setPaymentMethod('Card')}
+                      onChange={() => handleMethodChange('Card')}
                       className="sr-only"
                     />
                     <div className="payment-option__details">
@@ -152,7 +384,7 @@ export default function Payment() {
                       name="paymentMethod"
                       value="Cash on Delivery"
                       checked={paymentMethod === 'Cash on Delivery'}
-                      onChange={() => setPaymentMethod('Cash on Delivery')}
+                      onChange={() => handleMethodChange('Cash on Delivery')}
                       className="sr-only"
                     />
                     <div className="payment-option__details">
@@ -172,12 +404,23 @@ export default function Payment() {
                     </label>
                     <input
                       id="upi-id"
+                      ref={upiInputRef}
                       type="text"
-                      className="form-input"
+                      className={`form-input ${errors.upi ? 'error' : ''}`}
                       placeholder="name@bank"
                       autoComplete="off"
                       spellCheck="false"
+                      value={upiId}
+                      onChange={handleUpiChange}
+                      onBlur={handleUpiBlur}
+                      aria-invalid={errors.upi ? 'true' : 'false'}
+                      aria-describedby={errors.upi ? 'err-upi-id' : undefined}
                     />
+                    {errors.upi && (
+                      <p id="err-upi-id" className="form-error" role="alert">
+                        {errors.upi}
+                      </p>
+                    )}
                   </div>
                 </div>
               )}
@@ -190,12 +433,25 @@ export default function Payment() {
                     </label>
                     <input
                       id="card-number"
+                      ref={cardNumberRef}
                       type="text"
-                      className="form-input"
+                      inputMode="numeric"
+                      className={`form-input ${errors.cardNumber ? 'error' : ''}`}
                       placeholder="4242 4242 4242 4242"
                       autoComplete="off"
                       spellCheck="false"
+                      value={cardNumber}
+                      onChange={handleCardNumberChange}
+                      onBlur={handleCardNumberBlur}
+                      maxLength={19}
+                      aria-invalid={errors.cardNumber ? 'true' : 'false'}
+                      aria-describedby={errors.cardNumber ? 'err-card-number' : undefined}
                     />
+                    {errors.cardNumber && (
+                      <p id="err-card-number" className="form-error" role="alert">
+                        {errors.cardNumber}
+                      </p>
+                    )}
                   </div>
 
                   <div className="form-group">
@@ -209,6 +465,8 @@ export default function Payment() {
                       placeholder="Priya Sharma"
                       autoComplete="off"
                       spellCheck="false"
+                      value={cardName}
+                      onChange={(e) => setCardName(e.target.value)}
                     />
                   </div>
 
@@ -219,12 +477,26 @@ export default function Payment() {
                       </label>
                       <input
                         id="card-expiry"
+                        ref={cardExpiryRef}
                         type="text"
-                        className="form-input"
+                        inputMode="numeric"
+                        className={`form-input ${errors.expiry ? 'error' : ''}`}
                         placeholder="MM/YY"
                         autoComplete="off"
                         spellCheck="false"
+                        value={expiry}
+                        onChange={handleExpiryChange}
+                        onKeyDown={handleExpiryKeyDown}
+                        onBlur={handleExpiryBlur}
+                        maxLength={5}
+                        aria-invalid={errors.expiry ? 'true' : 'false'}
+                        aria-describedby={errors.expiry ? 'err-card-expiry' : undefined}
                       />
+                      {errors.expiry && (
+                        <p id="err-card-expiry" className="form-error" role="alert">
+                          {errors.expiry}
+                        </p>
+                      )}
                     </div>
 
                     <div className="form-group">
@@ -233,12 +505,25 @@ export default function Payment() {
                       </label>
                       <input
                         id="card-cvv"
-                        type="text"
-                        className="form-input"
+                        ref={cardCvvRef}
+                        type="password"
+                        inputMode="numeric"
+                        className={`form-input ${errors.cvv ? 'error' : ''}`}
                         placeholder="123"
                         autoComplete="off"
                         spellCheck="false"
+                        value={cvv}
+                        onChange={handleCvvChange}
+                        onBlur={handleCvvBlur}
+                        maxLength={3}
+                        aria-invalid={errors.cvv ? 'true' : 'false'}
+                        aria-describedby={errors.cvv ? 'err-card-cvv' : undefined}
                       />
+                      {errors.cvv && (
+                        <p id="err-card-cvv" className="form-error" role="alert">
+                          {errors.cvv}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -254,7 +539,7 @@ export default function Payment() {
 
               {/* Demo Notice */}
               <div className="payment-demo-notice" role="note">
-                Demo payment. No real money is charged. Please do not enter real card or UPI details.
+                Demo payment. No real money is charged. Please use dummy details only, for example card 4242 4242 4242 4242, expiry 12/30, CVV 123, or UPI test@upi. Never enter real card or UPI details.
               </div>
 
               {/* Pay Button */}
