@@ -7,6 +7,7 @@ import CheckoutSteps from '../components/CheckoutSteps';
 import { useCart } from '../context/CartContext';
 import { useCheckout } from '../context/CheckoutContext';
 import { useOrders } from '../context/OrdersContext';
+import { sanitizeName } from '../utils/sanitize';
 import './Payment.css';
 
 export default function Payment() {
@@ -29,6 +30,7 @@ export default function Payment() {
 
   const upiInputRef = useRef(null);
   const cardNumberRef = useRef(null);
+  const cardNameRef = useRef(null);
   const cardExpiryRef = useRef(null);
   const cardCvvRef = useRef(null);
 
@@ -246,6 +248,38 @@ export default function Payment() {
     }
   };
 
+  const handleCardNameChange = (e) => {
+    const input = e.target;
+    const originalValue = input.value;
+    const selectionStart = input.selectionStart;
+    const sanitized = sanitizeName(originalValue);
+
+    const rawBeforeCursor = originalValue.slice(0, selectionStart);
+    const sanitizedBeforeCursor = sanitizeName(rawBeforeCursor);
+    const newCursorPos = sanitizedBeforeCursor.length;
+
+    setCardName(sanitized);
+    if (errors.cardName) {
+      if (!/[^a-zA-Z ]/.test(sanitized)) {
+        setErrors((prev) => ({ ...prev, cardName: '' }));
+      }
+    }
+
+    requestAnimationFrame(() => {
+      if (input && typeof input.setSelectionRange === 'function') {
+        input.setSelectionRange(newCursorPos, newCursorPos);
+      }
+    });
+  };
+
+  const handleCardNameBlur = () => {
+    if (/[^a-zA-Z ]/.test(cardName)) {
+      setErrors((prev) => ({ ...prev, cardName: 'Name can contain letters and spaces only' }));
+    } else if (errors.cardName) {
+      setErrors((prev) => ({ ...prev, cardName: '' }));
+    }
+  };
+
   const handlePay = (e) => {
     if (e) e.preventDefault();
     if (isProcessingRef.current || isProcessing) return;
@@ -260,11 +294,15 @@ export default function Payment() {
       }
     } else if (paymentMethod === 'Card') {
       const cardNumErr = getCardNumberError(cardNumber);
+      const cardNameErr = /[^a-zA-Z ]/.test(cardName)
+        ? 'Name can contain letters and spaces only'
+        : '';
       const expiryErr = getExpiryError(expiry);
       const cvvErr = getCvvError(cvv);
 
       const newErrors = {};
       if (cardNumErr) newErrors.cardNumber = cardNumErr;
+      if (cardNameErr) newErrors.cardName = cardNameErr;
       if (expiryErr) newErrors.expiry = expiryErr;
       if (cvvErr) newErrors.cvv = cvvErr;
 
@@ -272,6 +310,8 @@ export default function Payment() {
         setErrors(newErrors);
         if (cardNumErr) {
           cardNumberRef.current?.focus();
+        } else if (cardNameErr) {
+          cardNameRef.current?.focus();
         } else if (expiryErr) {
           cardExpiryRef.current?.focus();
         } else if (cvvErr) {
@@ -460,14 +500,24 @@ export default function Payment() {
                     </label>
                     <input
                       id="card-name"
+                      ref={cardNameRef}
                       type="text"
-                      className="form-input"
+                      className={`form-input ${errors.cardName ? 'error' : ''}`}
                       placeholder="Priya Sharma"
                       autoComplete="off"
                       spellCheck="false"
                       value={cardName}
-                      onChange={(e) => setCardName(e.target.value)}
+                      onChange={handleCardNameChange}
+                      onInput={handleCardNameChange}
+                      onBlur={handleCardNameBlur}
+                      aria-invalid={errors.cardName ? 'true' : 'false'}
+                      aria-describedby={errors.cardName ? 'err-card-name' : undefined}
                     />
+                    {errors.cardName && (
+                      <p id="err-card-name" className="form-error" role="alert">
+                        {errors.cardName}
+                      </p>
+                    )}
                   </div>
 
                   <div className="payment-form-row">

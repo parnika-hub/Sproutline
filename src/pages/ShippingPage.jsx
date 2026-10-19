@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { useCart } from '../context/CartContext';
 import { useCheckout } from '../context/CheckoutContext';
+import { sanitizeName } from '../utils/sanitize';
 import './ShippingPage.css';
 
 export default function ShippingPage() {
@@ -19,9 +20,23 @@ export default function ShippingPage() {
     if (cart.length === 0) navigate('/cart', { replace: true });
   }, [cart, navigate]);
 
+  // Sanitize pre-filled full name from saved address data
+  useEffect(() => {
+    if (shippingInfo.fullName) {
+      const sanitized = sanitizeName(shippingInfo.fullName);
+      if (sanitized !== shippingInfo.fullName) {
+        updateShipping({ fullName: sanitized });
+      }
+    }
+  }, []);
+
   const validate = () => {
     const e = {};
-    if (!shippingInfo.fullName.trim()) e.fullName = 'Full name is required';
+    if (!shippingInfo.fullName.trim()) {
+      e.fullName = 'Full name is required';
+    } else if (/[^a-zA-Z ]/.test(shippingInfo.fullName)) {
+      e.fullName = 'Name can contain letters and spaces only';
+    }
     if (!shippingInfo.address.trim()) e.address = 'Address is required';
     if (!shippingInfo.city.trim()) e.city = 'City is required';
     if (!shippingInfo.pin.trim()) e.pin = 'PIN code is required';
@@ -48,6 +63,42 @@ export default function ShippingPage() {
     setErrors((prev) => ({ ...prev, [field]: '' }));
   };
 
+  const handleFullNameChange = (e) => {
+    const input = e.target;
+    const originalValue = input.value;
+    const selectionStart = input.selectionStart;
+    const sanitized = sanitizeName(originalValue);
+
+    const rawBeforeCursor = originalValue.slice(0, selectionStart);
+    const sanitizedBeforeCursor = sanitizeName(rawBeforeCursor);
+    const newCursorPos = sanitizedBeforeCursor.length;
+
+    updateShipping({ fullName: sanitized });
+    if (errors.fullName) {
+      if (!sanitized.trim()) {
+        if (errors.fullName === 'Name can contain letters and spaces only') {
+          setErrors((prev) => ({ ...prev, fullName: '' }));
+        }
+      } else if (!/[^a-zA-Z ]/.test(sanitized)) {
+        setErrors((prev) => ({ ...prev, fullName: '' }));
+      }
+    }
+
+    requestAnimationFrame(() => {
+      if (input && typeof input.setSelectionRange === 'function') {
+        input.setSelectionRange(newCursorPos, newCursorPos);
+      }
+    });
+  };
+
+  const handleFullNameBlur = () => {
+    if (/[^a-zA-Z ]/.test(shippingInfo.fullName)) {
+      setErrors((prev) => ({ ...prev, fullName: 'Name can contain letters and spaces only' }));
+    } else if (errors.fullName === 'Name can contain letters and spaces only') {
+      setErrors((prev) => ({ ...prev, fullName: '' }));
+    }
+  };
+
   return (
     <>
       <Header showBack />
@@ -65,10 +116,13 @@ export default function ShippingPage() {
                   id="ship-name"
                   type="text"
                   className={`form-input ${errors.fullName ? 'error' : ''}`}
-                  value={shippingInfo.fullName}
-                  onChange={(e) => handleChange('fullName', e.target.value)}
+                  value={sanitizeName(shippingInfo.fullName || '')}
+                  onChange={handleFullNameChange}
+                  onInput={handleFullNameChange}
+                  onBlur={handleFullNameBlur}
                   autoComplete="name"
                   placeholder="Priya Sharma"
+                  aria-invalid={errors.fullName ? 'true' : 'false'}
                   aria-describedby={errors.fullName ? 'err-name' : undefined}
                 />
                 {errors.fullName && <p id="err-name" className="form-error">{errors.fullName}</p>}
