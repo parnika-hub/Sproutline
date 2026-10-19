@@ -67,11 +67,12 @@ export default function Payment() {
     shippingInfo.delivery === 'express'
       ? 120
       : cartSubtotal >= 500
-      ? 0
-      : 50;
+        ? 0
+        : 50;
   const total = cartSubtotal + shipping;
 
   // Validation functions
+
   const getUpiError = (val) => {
     const trimmed = val.trim();
     if (!trimmed) {
@@ -589,7 +590,7 @@ export default function Payment() {
 
               {/* Demo Notice */}
               <div className="payment-demo-notice" role="note">
-                Demo payment. No real money is charged. Please use dummy details only, for example card 4242 4242 4242 4242, expiry 12/30, CVV 123, or UPI test@upi. Never enter real card or UPI details.
+                Demo payment. No real money is charged.
               </div>
 
               {/* Pay Button */}
